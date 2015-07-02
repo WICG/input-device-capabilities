@@ -1,5 +1,5 @@
 # InputDevice
-This repository contains a [proposed specification](http://rbyers.github.io/InputDevice/inputdevice.html) for an API that provides details of the underlying device that generated a DOM input event.  It also contains an initial attempt at [a polyfill](inputdevice-polyfill.js).
+This repository contains a [proposed specification](http://rbyers.github.io/InputDevice/inputdevice.html) for an API that provides details of the underlying device that generated a DOM input event.  It also contains an initial attempt at [a polyfill](inputdevice-polyfill.js), and [some tests](http://rbyers.github.io/InputDevice/tests/).
 
 ## References
 * [Chromium feature entry](https://www.chromestatus.com/features/5681847971348480) and [implementation status](https://code.google.com/p/chromium/issues/detail?id=476530)
