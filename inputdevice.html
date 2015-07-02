@@ -47,7 +47,7 @@
       </p>
     </section>
 
-    <section>
+    <section id="intro" class="informative">
       <h2>Introduction</h2>
       <p>
         DOM input events are an abstraction above low-level input events, only loosely
@@ -111,7 +111,38 @@
         of this event, or <code>null</code> if no physical device was responsible.
       </p>
     </section>
-    <section>
+    <section class="informative">
+      <h2>Examples</h2>
+      <p>The following are examples that demonstrate how the APIs in this specification might
+      be used</p>
+      <pre id="example_1" class="example" title="Changing the style of a button for mouse and touch">
+myButton.addEventListener('touchstart', function(e) {
+  myButton.classList.add("pressed");
+});
+
+myButton.addEventListener('touchend', function(e) {
+  // We don't call preventDefault because we want to rely on the browser's
+  // tap detection to actually trigger the button.
+  myButton.classList.remove("pressed");
+});
+
+myButton.addEventListener('touchcancel',  {
+  myButton.classList.remove("pressed");
+});
+
+myButton.addEventListener('mousedown', function(e) {
+  // Touch event case handled above, don't change the style again on tap.
+  if (!e.sourceDevice.firesTouchEvents)
+    myButton.classList.add("pressed");
+});
+
+document.addEventListener('mouseup', function(e) {
+  if (!e.sourceDevice.firesTouchEvents)
+    myButton.classList.remove("pressed");
+});
+      </pre>
+    </section>
+    <section class="informative">
       <h2>Relationship to APIs in other platforms</h2>
       <section><h3>Windows 8</h3>
         <p>Windows Runtime has a <a href="https://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.devices.input.pointerdevice.aspx">PointerDevice class</a>,
