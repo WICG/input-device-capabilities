@@ -22,7 +22,7 @@
     <section id='abstract'>
       <p>
         The APIs introduced by this document provide authors with a way to determine
-        properties of different physical input devices, especially in response
+        the properties of different physical input devices in response
         to DOM input events.
       </p>
     </section>
@@ -43,7 +43,7 @@
       </p>
       <p>
         Issues are tracked <a href="https://github.com/RByers/InputDevice">on GitHub</a>.
-        Other feedback can be sent to <a href="mailto:input-dev@chromium.org?subject=%5BInputDevice%5D">input-dev@chromium.org</a>
+        Other feedback can be sent to <a href="mailto:input-dev@chromium.org?subject=%5BInputDevice%5D">input-dev@chromium.org</a>.
       </p>
     </section>
 
@@ -51,19 +51,19 @@
       <h2>Introduction</h2>
       <p>
         DOM input events are an abstraction above low-level input events, only loosely
-        tied to physical device input (eg. ‘click’ events can be fired by a mouse,
-        touchscreen or keyboard).  There is no mechanism to drill down and get
+        tied to physical device input (e.g. ‘click’ events can be fired by a mouse,
+        touchscreen or keyboard).  There is no mechanism to obtain
         lower-level details about the physical device responsible for an event.
-        This tends to lead to a variety of problems with developers needing to make
-        assumptions or rely on heuristics.  For example, when supporting both mose and
-        touch input, it's difficult to know whether a mousedown event represents a
-        new input, or a compatibility event for a previously processed touchstart event.
+        This leads to problems, as developers may need to make
+        assumptions or rely on heuristics.  For example, when supporting both mouse and
+        touch input, it's difficult to know whether a mousedown event represents
+        new input from a mouse, or a compatibility event for a previously processed touchstart event.
       </p>
       <p>
         The InputDevice API is designed to provide additional details about the underlying
         source of an input event.  To avoid reliance on faulty assumptions, this API attempts to describe how
-        a device behaves (eg. whether it fires touch events), not what it is
-        (eg. a touchscreen).
+        a device behaves (e.g. whether it fires touch events), not what it is
+        (e.g. a touchscreen).
       </p>
     </section>
     <section dfn-for="InputDevice">
@@ -71,7 +71,7 @@
       <p>
         An <dfn>InputDevice</dfn> represents a physical device (or group of related devices)
         capable of generating input events.  Authors should not rely on the equality
-        of InputDevice instances.  Eg. two mice with the same properties in a system may
+        of InputDevice instances.  E.g. two mice with the same properties in a system may
         appear as a single InputDevice instance.
       </p>
       <pre class="idl">
@@ -87,15 +87,15 @@
       <section>
         <h3><code>InputDevice</code> attributes</h3>
         <p><dfn>firesTouchEvents</dfn>
-          indicates whether this device dispatches touch events [[Touch-Events]] for movement.  This is used to detect
-          mouse events [[UIEvents]] which only represent an action that may have already been handled by
+          indicates whether this device dispatches touch events [[Touch-Events]].  This can be used to detect
+          mouse events [[UIEvents]] which represent an action that may have already been handled by
           touch event handlers.
         </p>
       </section>
     </section>
     <section>
-      <h2>Extentions to the <code>UIEvent</code> interface and <code>UIEventInit</code> dictionary</h2>
-      <p><code>UIEvent</code> and <code>UIEventInit</code> are defined in [[!UIEvents]]</p>
+      <h2>Extensions to the <code>UIEvent</code> interface and <code>UIEventInit</code> dictionary</h2>
+      <p><code>UIEvent</code> and <code>UIEventInit</code> are defined in [[!UIEvents]].</p>
       <pre class="idl">
         partial interface UIEvent {
           readonly attribute InputDevice? sourceDevice;
@@ -117,8 +117,8 @@
         which is correlated to a pointer input event via <a href="https://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.input.pointerpoint.pointerdevice.aspx">Windows.UI.Input.PointerPoint.PointerDevice</a>.
         Additional information is available from the <a href="https://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.devices.input.mousecapabilities.aspx">MouseCapabilities</a>,
         <a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.devices.input.keyboardcapabilities.aspx">KeyboardCapabilities</a> and <a href="https://msdn.microsoft.com/library/windows/apps/br225644">TouchCapabilities</a>
-        classes.  But note that this information is not available per-device.  If the system has two mice, for example,
-        you can apparently determine whether any of them have a horizontal wheel, but not whether all of them do.</p>
+        classes.  Note that this information is not available per-device.  If the system has two mice, for example,
+        you can determine whether any of them have a horizontal wheel, but not whether all of them do.</p>
 
         <p>At the low level, all WM_POINTER event messages <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/hh454885(v=vs.85).aspx">provide access to</a>
         a <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/hh454907(v=vs.85).aspx">sourceDevice HANDLE</a> for each point (although it’s not obvious to me what can be done with this HANDLE).</p>
@@ -126,7 +126,7 @@
 
       <section><h3>Mac OS X</h3>
         <p>MacOS X has various properties directly on NSEvent for determining device details.
-        Eg. <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Classes/NSEvent_Class/index.html#//apple_ref/c/econst/NSTouchEventSubtype">the mouse event sub-type</a>,
+        E.g. <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Classes/NSEvent_Class/index.html#//apple_ref/c/econst/NSTouchEventSubtype">the mouse event sub-type</a>,
         <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Classes/NSEvent_Class/index.html#//apple_ref/occ/instm/NSEvent/hasPreciseScrollingDeltas">hasPreciseScrollingDeltas</a>,
         and various properties (such as <a href="https://developer.apple.com/library/mac/documentation/Cocoa/Reference/ApplicationKit/Classes/NSEvent_Class/index.html#//apple_ref/occ/instm/NSEvent/vendorPointingDeviceType">vendorPointingDeviceType</a>)
         for tablet device information.</p>
