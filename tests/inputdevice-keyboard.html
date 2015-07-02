@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<title>InputDevice test for mouse-triggered events</title>
+<title>InputDevice test for keyboard-triggered events</title>
 <meta name="viewport" content="width=device-width">
 <script src="https://w3c-test.org/resources/testharness.js"></script>
 <script src="https://w3c-test.org/resources/testharnessreport.js"></script>
 <script src="inputdevice-tests.js"></script>
 <style>
 #target {
-  border: 1px solid black;
-  width: 100px;
-  height: 100px;
-  background-color: lightgreen;
   margin-bottom: 20px;
 }
 </style>
 
-<h1>InputDevice - test for mouse-triggered events</h1>
-<p>Double-click with a pointing device that doesn't fire touch events (eg. a mouse) in the box below, then click outside the box.</p>
-<div id="target" tabindex=1></div>
+<h1>InputDevice - test for keyboard-triggered events</h1>
+<p>Tab into the input fields below, enter some text and activate the checkbox using nothing but a keyboard.</p>
+<div id="target" tabindex=1>
+  <input>
+  <input type=checkbox>
+</div>
+
 <div><b>Expected events:</b> <span id="eventList"></span></div>
 <div id="log"></div>
 <script>
@@ -28,7 +28,11 @@ function inputDeviceValidator(sourceDevice) {
 }
 
 function runTests() {
-  var events = ["mousedown", "mousemove", "mouseup", "mouseenter", "mouseleave", "mouseover", "mouseout", "click", "dblclick", "focus", "focusin", "focusout", "blur"];
+  var events = ["click", "focus", "focusin", "focusout", "blur", "keydown", "keyup", "keypress"];
+  // Some browsers don't yet implement 'input' as a UIEvent, and many browsers don't yet support
+  // 'beforeinput'
+  if ('InputEvent' in window)
+    events = events.join(["input", "beforeinput"]);
   runInputDeviceEventTests(events, inputDeviceValidator);
 }
 </script>

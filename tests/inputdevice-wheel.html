@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<title>InputDevice test for mouse-triggered events</title>
+<title>InputDevice test for wheel-triggered events</title>
 <meta name="viewport" content="width=device-width">
 <script src="https://w3c-test.org/resources/testharness.js"></script>
 <script src="https://w3c-test.org/resources/testharnessreport.js"></script>
@@ -14,8 +14,8 @@
 }
 </style>
 
-<h1>InputDevice - test for mouse-triggered events</h1>
-<p>Double-click with a pointing device that doesn't fire touch events (eg. a mouse) in the box below, then click outside the box.</p>
+<h1>InputDevice - test for wheel-triggered events</h1>
+<p>Mousewheel over the box below.</p>
 <div id="target" tabindex=1></div>
 <div><b>Expected events:</b> <span id="eventList"></span></div>
 <div id="log"></div>
@@ -28,7 +28,7 @@ function inputDeviceValidator(sourceDevice) {
 }
 
 function runTests() {
-  var events = ["mousedown", "mousemove", "mouseup", "mouseenter", "mouseleave", "mouseover", "mouseout", "click", "dblclick", "focus", "focusin", "focusout", "blur"];
+  var events = ["wheel"];
   runInputDeviceEventTests(events, inputDeviceValidator);
 }
 </script>
