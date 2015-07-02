@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<title>InputDevice test for script-generated objects</title>
+<meta name="viewport" content="width=device-width">
+<script src="https://w3c-test.org/resources/testharness.js"></script>
+<script src="https://w3c-test.org/resources/testharnessreport.js"></script>
+<script src="inputdevice-tests.js"></script>
+
+<h1>InputDevice - test for script-generated objects</h1>
+<div id="target"></div>
+<div id="log"></div>
+
+<script>
+'use strict';
+function runTests() {
+  test(function() {
+    var i = new InputDevice();
+    assert_equals(i.firesTouchEvents, false, "firesTouchEvents exists and is false by default.");
+    assert_readonly(i, "firesTouchEvents", "firesTouchEvents should be readonly");
+  
+    i = new InputDevice({});
+    assert_equals(i.firesTouchEvents, false, "firesTouchEvents still false with empty init dictionary.");
+  
+    i = new InputDevice({firesTouchEvents:true});
+    assert_equals(i.firesTouchEvents, true, "firesTouchEvents can be initialized to true.");
+  
+  }, "InputDevice objects can be created correctly from script");
+  
+  test(function() {
+    var e = new UIEvent("resize");
+    assert_equals(e.sourceDevice, null, "UIEvent.sourceDevice exists and is null by default");
+    assert_readonly(e, "sourceDevice", "sourceDevice should be readonly");
+    
+    var device = new InputDevice({firesTouchEvents:true});
+    var mouseEvent = new MouseEvent("mytest", {sourceDevice: device});
+    assert_equals(mouseEvent.sourceDevice, device, "sourceDevice can be initialized to a given InputDevice");
+    
+    var receivedEvent;
+    var target = document.getElementById("target");
+    target.addEventListener("mytest", function(evt) {
+      receivedEvent = evt;
+    });
+    target.dispatchEvent(mouseEvent);
+    assert_equals(receivedEvent.sourceDevice, device, "sourceDevice is preserved across JavaScript event dispatch");
+    
+  }, "sourceDevice exists on all UIEvents and can be initialized properly by script");
+}
+
+</script>

@@ -60,7 +60,7 @@
   // A few UIEvents aren't really input events and so should always have a null
   // source device.  Arguably we should have a list of opt-in event types instead,
   // but that probably depends on ultimately how we want to specify this behavior.
-  var eventTypesWithNoSourceDevice = ['resize', 'error', 'load', 'unload'];
+  var eventTypesWithNoSourceDevice = ['resize', 'error', 'load', 'unload', 'abort'];
   
   // We assume that any UI event that occurs within this many ms from a touch
   // event is caused by a touch device.  This needs to be a little longer than
@@ -117,8 +117,12 @@
       return;
     var origCtor = global[constructorName];
     global[constructorName] = function(type, initDict) {
+      var sourceDevice = (initDict && initDict.sourceDevice) ? initDict.sourceDevice : null;
+      // Need to explicitly remove sourceDevice from the dictionary as it would cause
+      // a type error in blink when InputDevice support is disabled.
+      if (initDict)
+        delete initDict.sourceDevice;
       var evt = new origCtor(type, initDict);
-      var sourceDevice = initDict.sourceDevice || null;
       // Stash the sourceDevice value away for use by the UIEvent.sourceDevice
       // getter.  We could instead shadow the property on this instance, but 
       // that would be subtly different than the specified API.
