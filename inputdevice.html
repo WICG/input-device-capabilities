@@ -8,13 +8,30 @@
     <script class='remove'>
       var respecConfig = {
           specStatus: "unofficial",
-          shortName:  "inputdevice",
+          shortName: "inputdevice",
+          edDraftURI: "https://rbyers.github.io/InputDevice/inputdevice.html",
+          testSuiteURI: "http://rbyers.github.io/InputDevice/tests/",
           editors: [
                 {   name:       "Rick Byers",
                     url:        "http://rbyers.net",
                     company:    "Google",
                     companyURL: "http://google.com/" }
           ],
+          otherLinks: [{
+            key: 'Participation',
+            data: [
+                {
+                    value: 'GitHub repository',
+                    href: 'https://github.com/RByers/InputDevice/'
+                }, {
+                    value: 'File a bug / view open issues',
+                    href: 'https://github.com/RByers/InputDevice/issues'
+                }, {
+                    value: 'E-mail feedback',
+                    href: 'mailto:input-dev@chromium.org?subject=%5BInputDevice%5D'
+                }
+             ]
+          }],
       };
     </script>
   </head>
@@ -40,10 +57,6 @@
         wide variety of properties</a> which would be valuable to add here, for now
         this document aims to define only those that are strongly justified as solving
         important real-world problems.
-      </p>
-      <p>
-        Issues are tracked <a href="https://github.com/RByers/InputDevice">on GitHub</a>.
-        Other feedback can be sent to <a href="mailto:input-dev@chromium.org?subject=%5BInputDevice%5D">input-dev@chromium.org</a>.
       </p>
     </section>
 
@@ -72,7 +85,7 @@
       <p>
         An <dfn>InputDevice</dfn> represents a physical device (or group of related devices)
         capable of generating input events.  Events caused by the same physical input device
-        will get the exact same sourceDevice object, but the converse isn't necessarily true.
+        will get the same sourceDevice object, but the converse isn't necessarily true.
         E.g. two mice with the same properties in a system may appear as a single InputDevice instance.
       </p>
       <pre class="idl">
@@ -87,11 +100,17 @@
       </pre>
       <section>
         <h3><code>InputDevice</code> attributes</h3>
-        <p><dfn>firesTouchEvents</dfn>
-          indicates whether this device dispatches touch events [[Touch-Events]].  This can be used to detect
-          mouse events [[UIEvents]] which represent an action that may have already been handled by
-          touch event handlers.
-        </p>
+        <dl>
+          <dt><dfn>firesTouchEvents</dfn></dt>
+          <dd>          
+            indicates whether this device dispatches [[Touch-Events]].
+            <div class="note">
+              This can be used to detect mouse events [[UIEvents]] which represent an action
+              that may have already been handled by touch event handlers.  See 
+              <a href="#example_1">Example 1</a> for details.
+            </div>
+          </dd>
+        </dl>
       </section>
     </section>
     <section>
@@ -106,16 +125,18 @@
           InputDevice? sourceDevice = null;
         };
       </pre>
-      <p dfn-for="UIEvent">
-        <dfn>sourceDevice</dfn> indicates the <a>InputDevice</a> responsible for the generation
+      <dl dfn-for="UIEvent">
+        <dt><dfn>sourceDevice</dfn></dt>
+        <dd>Indicates the <a>InputDevice</a> responsible for the generation
         of this event, or <code>null</code> if no physical device was responsible.
-      </p>
+        </dd>
+      </dl>
     </section>
     <section class="informative">
       <h2>Examples</h2>
       <p>The following are examples that demonstrate how the APIs in this specification might
       be used</p>
-      <pre id="example_1" class="example" title="Changing the style of a button for mouse and touch">
+      <pre id="example_1" resource="#example_1" class="example" title="Changing the style of a button for mouse and touch">
 myButton.addEventListener('touchstart', function(e) {
   myButton.classList.add("pressed");
 });
