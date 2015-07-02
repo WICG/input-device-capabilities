@@ -10,13 +10,70 @@
   width: 100px;
   height: 100px;
   background-color: blue;
+  margin-bottom: 20px;
 }
 </style>
 
 <h1>InputDevice - test for mouse-triggered events</h1>
-<p>Click with a mouse in the blue box below</p>
-<div id="target"></div>
+<p>Double-click with a pointing device that doesn't fire touch events (eg. a mouse) in the blue box below, then click outside the box.</p>
+<div id="target" tabindex=1></div>
+<div><b>Expected events:</b> <span id="eventList"></span></div>
 <div id="log"></div>
 <script>
+'use strict';
+function runTests() {
+  
+  var eventsReceived = {};
+  var sourceDeviceReceived;
+  var target = document.getElementById("target");
+  var events = ["mousedown", "mousemove", "mouseup", "mouseenter", "mouseleave", "mouseover", "mouseout", "click", "dblclick", "focus", "focusin", "focusout", "blur"];
+  var asyncTests = [];
+  
+  function setEventList() {
+    var expectedEvents = '';
+    for (var i = 0; i < events.length; i++) {
+      if (!(events[i] in eventsReceived)) {
+        expectedEvents += events[i] + ' ';
+      }
+    }
+    document.getElementById("eventList").textContent = expectedEvents;
+  }
+  setEventList();
 
+  function checkForCompletion() {
+    if (Object.getOwnPropertyNames(eventsReceived).length == events.length) {
+      for(var i = 0; i < asyncTests.length; i++) {
+        asyncTests[i].done();
+      }
+    }  
+  }
+  
+  function generateAsyncEventTest(eventName) {
+    var asyncTest = async_test(eventName + " event has sourceDevice set correctly for mouse input");
+    target.addEventListener(eventName, function(event) {
+      if (sourceDeviceReceived) {
+        asyncTest.step(function() {
+          assert_equals(event.sourceDevice, sourceDeviceReceived, "sourceDevice is the same object as previous events");
+        });
+      } else {
+        assert_true(event.sourceDevice != null, "sourceDevice is set");
+        assert_false(event.sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents is false");
+        sourceDeviceReceived = event.sourceDevice;
+      }
+      // We want to monitor for multiple occurneces of an event until all events have been
+      // received.  If some events are never received, those tests will appear as "not run"
+      // while the others will be "timeout".
+      if (!(eventName in eventsReceived)) {
+        eventsReceived[eventName] = true;
+        setEventList();
+        checkForCompletion();
+      }
+    });
+    return asyncTest;
+  }
+  
+  for (var i = 0; i < events.length; i++) {
+    asyncTests.push(generateAsyncEventTest(events[i]));
+  }
+}
 </script>

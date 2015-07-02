@@ -70,9 +70,9 @@
       <h2>The <code>InputDevice</code> interface</h2>
       <p>
         An <dfn>InputDevice</dfn> represents a physical device (or group of related devices)
-        capable of generating input events.  Authors should not rely on the equality
-        of InputDevice instances.  Eg. two mice with the same properties in a system may
-        appear as a single InputDevice instance.
+        capable of generating input events.  Events caused by the same physical input device
+        will get the exact same sourceDevice object, but the converse isn't necessarily true.
+        Eg. two mice with the same properties in a system may appear as a single InputDevice instance.
       </p>
       <pre class="idl">
         [Constructor(optional InputDeviceInit deviceInitDict)]
