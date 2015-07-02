@@ -61,7 +61,8 @@
       </p>
       <p>
         The InputDevice API is designed to provide additional details about the underlying
-        source of an input event.  To avoid reliance on faulty assumptions, this API attempts to describe how
+        source of an input event.  To avoid reliance on faulty assumptions (which may be
+        violated by edge cases or future input devices), this API attempts to describe how
         a device behaves (e.g. whether it fires touch events), not what it is
         (e.g. a touchscreen).
       </p>
@@ -117,11 +118,11 @@
         which is correlated to a pointer input event via <a href="https://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.ui.input.pointerpoint.pointerdevice.aspx">Windows.UI.Input.PointerPoint.PointerDevice</a>.
         Additional information is available from the <a href="https://msdn.microsoft.com/en-us/library/windows/apps/xaml/windows.devices.input.mousecapabilities.aspx">MouseCapabilities</a>,
         <a href="https://msdn.microsoft.com/en-us/library/windows/apps/windows.devices.input.keyboardcapabilities.aspx">KeyboardCapabilities</a> and <a href="https://msdn.microsoft.com/library/windows/apps/br225644">TouchCapabilities</a>
-        classes.  Note that this information is not available per-device.  If the system has two mice, for example,
-        you can determine whether any of them have a horizontal wheel, but not whether all of them do.</p>
+        classes.  Note that this information is not available per-device.</p>
 
         <p>At the low level, all WM_POINTER event messages <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/hh454885(v=vs.85).aspx">provide access to</a>
-        a <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/hh454907(v=vs.85).aspx">sourceDevice HANDLE</a> for each point (although it’s not obvious to me what can be done with this HANDLE).</p>
+        a <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/hh454907(v=vs.85).aspx">sourceDevice HANDLE</a> for each point.
+        Detailed per-device information can be obtained using the <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms645536(v=vs.85).aspx">Raw Input APIs</a>.</p>
       </section>
 
       <section><h3>Mac OS X</h3>
