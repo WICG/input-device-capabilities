@@ -29,6 +29,8 @@ function inputDeviceValidator(sourceDevice) {
 
 function runTests() {
   var events = ["mousedown", "mousemove", "mouseup", "mouseenter", "mouseleave", "mouseover", "mouseout", "click", "dblclick", "focus", "focusin", "focusout", "blur"];
+  if ('PointerEvent' in window)
+    events = events.join(["pointerdown", "pointermove", "pointerup", "pointerenter", "pointerleave", "pointerover", "pointerout"]);
   runInputDeviceEventTests(events, inputDeviceValidator);
 }
 </script>
