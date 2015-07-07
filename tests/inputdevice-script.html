@@ -73,8 +73,13 @@ function runTests() {
       continue;
 
     // Firefox doesn't support legacy createEvent for new eventTypes.
-    if (!(isFf && ['FocusEvent', 'WheelEvent', 'InputEvent'].indexOf(type) >= 0))
-      generateCreateEventTest(type);
+    if (!(isFf && ['FocusEvent', 'WheelEvent', 'InputEvent'].indexOf(type) >= 0)) {
+      var createEventName = type;
+      // createEvent sometimes requires the plural name - highly browser specific
+      if (type == "SVGZoomEvent")
+        createEventName += "s";
+      generateCreateEventTest(createEventName);
+    }
 
     // Firefox doesn't properly support CompositionEvent constructor and there doesn't appear
     // to be any way to feature detect for that. https://bugzilla.mozilla.org/show_bug.cgi?id=1002256.
