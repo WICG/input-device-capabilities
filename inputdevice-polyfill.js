@@ -121,8 +121,9 @@
     if (!(constructorName in global))
       return;
 
-    // IE doesn't support event constructors at all
-    if (typeof global[constructorName] != "function" || global[constructorName].length < 1)
+    // IE doesn't support event constructors at all.
+    // In Safari typeof constructor is 'object' while it's 'function' in other browsers.
+    if (global[constructorName].length < 1)
       return;
 
     var origCtor = global[constructorName];
