@@ -29,9 +29,13 @@ function runTests() {
   function generateConstructorTest(ctorName) {
     test(function() {
       var ctor = window[ctorName];
-      var evt = new ctor("testEvent");
-      assert_equals(evt.sourceDevice, null, "sourceDevice exists and is null by default");
-      assert_readonly(evt, "sourceDevice", "sourceDevice should be readonly");
+
+      var evt = document.createEvent(ctorName);
+      assert_equals(evt.sourceDevice, null, "createEvent: sourceDevice exists and is null by default");
+
+      evt = new ctor("testEvent");
+      assert_equals(evt.sourceDevice, null, "Event constructor: sourceDevice exists and is null by default");
+      assert_readonly(evt, "sourceDevice", "Event constructor: sourceDevice should be readonly");
       
       var device = new InputDevice({firesTouchEvents:true});
       evt = new ctor("mytest", {sourceDevice: device});

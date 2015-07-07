@@ -149,5 +149,17 @@
   var uiEventConstructors = ['UIEvent', 'MouseEvent', 'InputEvent', 'CompositionEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent', 'PointerEvent'];
   for (var i = 0; i < uiEventConstructors.length; i++)
     augmentEventConstructor(uiEventConstructors[i]);
-  
+
+  // Ensure events created with document.createEvent always get a null sourceDevice
+  var origCreateEvent = Document.prototype.createEvent;
+  Document.prototype.createEvent = function(type) {
+    var evt = origCreateEvent.call(this, type);
+    if (evt instanceof UIEvent) {
+      Object.defineProperty(evt, specifiedSourceDeviceName, {
+        value: null,
+        writable: false
+      });
+      return evt;
+    }
+  };
 })(this);
