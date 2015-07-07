@@ -17,10 +17,12 @@
  *  Browser support:
  *   - Verified working on:
  *     - Chrome 43 (Windows, Linux and Android)
+ *     - IE 11 (Windows)
  *     - Firefox 38 (Linux)
  *     - Safari 8 (Mac and iOS)
- *   - Event constructors aren't supported in IE
- *   - Doesn't work in IE prior to version 9 (due to lack of Object.defineProperty)
+ *   - Event constructors aren't supported by IE at all.
+ *   - IE on Windows phone isn't supported properly (https://github.com/RByers/InputDevice/issues/13)
+ *   - Won't work in IE prior to version 9 (due to lack of Object.defineProperty)
  */
 
 (function(global) {
