@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <title>InputDevice test for script-generated objects</title>
 <meta name="viewport" content="initial-scale=1">
+<meta charset="UTF-8">
 <script src="http://w3c-test.org/resources/testharness.js"></script>
 <script src="http://w3c-test.org/resources/testharnessreport.js"></script>
 <script src="inputdevice-tests.js"></script>
@@ -47,14 +48,18 @@ function runTests() {
     }, ctorName + ".sourceDevice exists and can be initialized properly by script");
   }
 
-  var uiEventConstructors = ['UIEvent', 'MouseEvent', 'CompositionEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent'];
+  var uiEventConstructors = ['UIEvent', 'MouseEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent'];
   for (var i = 0; i < uiEventConstructors.length; i++)
     generateConstructorTest(uiEventConstructors[i]);
 
-  // Note that SVGZoomEvent and TouchEvent don't have a constructor defined.
-  var optionalUIEventConstructor = ['InputEvent', 'PointerEvent'];
+  // Mozilla doesn't properly support CompositionEvent constructor and there doesn't appear
+  // to be any way to feature detect for that.
+  if (navigator.userAgent.indexOf("Firefox") == -1)
+    generateConstructorTest('CompositionEvent');
+
+  var optionalUIEventConstructor = ['InputEvent', 'PointerEvent', 'SVGZoomEvent', 'TouchEvent'];
   for (var i = 0; i < optionalUIEventConstructor.length; i++)
-    if (optionalUIEventConstructor[i] in window)
+    if (optionalUIEventConstructor[i] in window && window[optionalUIEventConustructor[i]].length)
       generateConstructorTest(optionalUIEventConstructor[i]);
 }
 

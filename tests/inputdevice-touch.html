@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <title>InputDevice test for touch-triggered events</title>
 <meta name="viewport" content="initial-scale=1">
+<meta charset="UTF-8">
 <script src="http://w3c-test.org/resources/testharness.js"></script>
 <script src="http://w3c-test.org/resources/testharnessreport.js"></script>
 <script src="inputdevice-tests.js"></script>
@@ -23,14 +24,21 @@
 'use strict';
 
 function inputDeviceValidator(sourceDevice) {
-  assert_true(event.sourceDevice != null, "sourceDevice is set");
-  assert_true(event.sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
+  assert_true(sourceDevice != null, "sourceDevice is set");
+  assert_true(sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
 }
 
 function runTests() {
-  var events = ["touchstart", "touchmove", "touchend", "mousedown", "mousemove", "mouseup", "mouseenter", "mouseleave", "mouseover", "mouseout", "click", "focus", "focusin", "focusout", "blur"];
+  var events = ["touchstart", "touchmove", "touchend", "mousedown", "mousemove", "mouseup", "mouseenter", "mouseleave", "mouseover", "mouseout", "click", "focus", "blur"];
+
+  // Mozilla doesn't support focusin/focusout: https://bugzilla.mozilla.org/show_bug.cgi?id=687787
+  // There doesn't appear to be any good way to feature-detect for it.
+  if (navigator.userAgent.indexOf("Firefox") == -1)
+    events = events.concat(["focusin", "focusout"]);
+
   if ('PointerEvent' in window)
-    events = events.join(["pointerdown", "pointermove", "pointerup", "pointerenter", "pointerleave", "pointerover", "pointerout", "pointercancel"]);
+    events = events.concat(["pointerdown", "pointermove", "pointerup", "pointerenter", "pointerleave", "pointerover", "pointerout", "pointercancel"]);
+
   runInputDeviceEventTests(events, inputDeviceValidator);
 }
 </script>

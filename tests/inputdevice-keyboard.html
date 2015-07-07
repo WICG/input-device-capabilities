@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <title>InputDevice test for keyboard-triggered events</title>
 <meta name="viewport" content="initial-scale=1">
+<meta charset="UTF-8">
 <script src="http://w3c-test.org/resources/testharness.js"></script>
 <script src="http://w3c-test.org/resources/testharnessreport.js"></script>
 <script src="inputdevice-tests.js"></script>
@@ -23,16 +24,27 @@
 'use strict';
 
 function inputDeviceValidator(sourceDevice) {
-  assert_true(event.sourceDevice != null, "sourceDevice is set");
-  assert_false(event.sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
+  assert_true(sourceDevice != null, "sourceDevice is set");
+  assert_false(sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
 }
 
 function runTests() {
-  var events = ["click", "focus", "focusin", "focusout", "blur", "keydown", "keyup", "keypress"];
+  var events = ["click", "focus", "blur", "keydown", "keyup", "keypress"];
+
+  // Mozilla doesn't support focusin/focusout: https://bugzilla.mozilla.org/show_bug.cgi?id=687787
+  // There doesn't appear to be any good way to feature-detect for it.
+  if (navigator.userAgent.indexOf("Firefox") == -1)
+    events = events.concat(["focusin", "focusout"]);
+
   // Some browsers don't yet implement 'input' as a UIEvent, and many browsers don't yet support
   // 'beforeinput'
-  if ('InputEvent' in window)
-    events = events.join(["input", "beforeinput"]);
+  if ("InputEvent" in window) {
+    if ("oninput" in document.body)
+      events.push("input");
+    if ("onbeforeinput" in document.body)
+      events.push("beforeinput");
+  }
+
   runInputDeviceEventTests(events, inputDeviceValidator);
 }
 </script>

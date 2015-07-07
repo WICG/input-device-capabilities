@@ -54,7 +54,7 @@
   }
 
   function generateAsyncEventTest(eventName, inputDeviceValidator) {
-    var asyncTest = async_test(eventName + " event has sourceDevice set correctly set");
+    var asyncTest = async_test(eventName + " event has sourceDevice set correctly");
     target.addEventListener(eventName, function(event) {
       asyncTest.step(function() {
         assert_true(event instanceof UIEvent, "event is a UIEvent");
