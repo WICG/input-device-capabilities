@@ -49,22 +49,43 @@ function runTests() {
       target.dispatchEvent(evt);
       assert_equals(receivedEvent.sourceDevice, device, "sourceDevice is preserved across JavaScript event dispatch");
       
-    }, ctorName + ".sourceDevice exists and can be initialized properly by script");
+    }, "new " + ctorName);
   }
 
-  var uiEventConstructors = ['UIEvent', 'MouseEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent'];
-  for (var i = 0; i < uiEventConstructors.length; i++)
-    generateConstructorTest(uiEventConstructors[i]);
+  function generateCreateEventTest(eventType) {
+    test(function() {
+      var evt = document.createEvent(eventType);
+      assert_equals(evt.sourceDevice, null, "sourceDevice exists and is null");
+    }, "document.createEvent(\"" + eventType + "\")");
+  }
 
-  // Mozilla doesn't properly support CompositionEvent constructor and there doesn't appear
-  // to be any way to feature detect for that.
-  if (navigator.userAgent.indexOf("Firefox") == -1)
-    generateConstructorTest('CompositionEvent');
 
-  var optionalUIEventConstructor = ['InputEvent', 'PointerEvent', 'SVGZoomEvent', 'TouchEvent'];
-  for (var i = 0; i < optionalUIEventConstructor.length; i++)
-    if (optionalUIEventConstructor[i] in window && window[optionalUIEventConstructor[i]].length)
-      generateConstructorTest(optionalUIEventConstructor[i]);
+  var eventTypes = ['UIEvent', 'MouseEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent', 'CompositionEvent'];
+  var optionalEventTypes = ['InputEvent', 'PointerEvent', 'SVGZoomEvent'];
+  for( var i = 0; i < optionalEventTypes.length; i++) {
+    if (optionalEventTypes[i] in window)
+      eventTypes.push(optionalEventTypes[i]);
+  }
+
+  for (var i = 0; i < eventTypes.length; i++) {
+    var type = eventTypes[i];
+
+    // TouchEvent is special - support may be disabled even when the TouchEvent exists
+    // http://crbug.com/392584
+    if (type == "TouchEvent" && !('ontouchstart' in window))
+      continue;
+
+    generateCreateEventTest(type);
+
+    // Mozilla doesn't properly support CompositionEvent constructor and there doesn't appear
+    // to be any way to feature detect for that. https://bugzilla.mozilla.org/show_bug.cgi?id=1002256.
+    if (type == 'CompositionEvent' && navigator.userAgent.indexOf("Firefox") >= 0)
+      continue;
+
+    // Some browsers don't support constructors for all event types.
+    if (window[type].length > 0)
+      generateConstructorTest(type);
+  }
 }
 
 </script>
