@@ -15,6 +15,11 @@
  *     device. 
  *     
  *  Browser support:
+ *   - Verified working on:
+ *     - Chrome 43 (Windows, Linux and Android)
+ *     - Firefox 38 (Linux)
+ *     - Safari 8 (Mac and iOS)
+ *   - Event constructors aren't supported in IE
  *   - Doesn't work in IE prior to version 9 (due to lack of Object.defineProperty)
  */
 
@@ -115,6 +120,11 @@
   function augmentEventConstructor(constructorName) {
     if (!(constructorName in global))
       return;
+
+    // IE doesn't support event constructors at all
+    if (typeof global[constructorName] != "function" || global[constructorName].length < 1)
+      return;
+
     var origCtor = global[constructorName];
     global[constructorName] = function(type, initDict) {
       var sourceDevice = (initDict && initDict.sourceDevice) ? initDict.sourceDevice : null;

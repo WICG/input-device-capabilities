@@ -59,7 +59,7 @@ function runTests() {
 
   var optionalUIEventConstructor = ['InputEvent', 'PointerEvent', 'SVGZoomEvent', 'TouchEvent'];
   for (var i = 0; i < optionalUIEventConstructor.length; i++)
-    if (optionalUIEventConstructor[i] in window && window[optionalUIEventConustructor[i]].length)
+    if (optionalUIEventConstructor[i] in window && window[optionalUIEventConstructor[i]].length)
       generateConstructorTest(optionalUIEventConstructor[i]);
 }
 
