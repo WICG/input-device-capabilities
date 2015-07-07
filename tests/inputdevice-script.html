@@ -61,7 +61,7 @@ function runTests() {
 
 
   var eventTypes = ['UIEvent', 'MouseEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent', 'CompositionEvent'];
-  var optionalEventTypes = ['InputEvent', 'PointerEvent', 'SVGZoomEvent'];
+  var optionalEventTypes = ['TouchEvent', 'InputEvent', 'PointerEvent', 'SVGZoomEvent'];
   for( var i = 0; i < optionalEventTypes.length; i++) {
     if (optionalEventTypes[i] in window)
       eventTypes.push(optionalEventTypes[i]);
