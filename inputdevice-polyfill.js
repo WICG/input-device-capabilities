@@ -123,7 +123,7 @@
 
     // IE doesn't support event constructors at all.
     // In Safari typeof constructor is 'object' while it's 'function' in other browsers.
-    if (global[constructorName].length < 1)
+    if (!('length' in global[constructorName]) || global[constructorName].length < 1)
       return;
 
     var origCtor = global[constructorName];
