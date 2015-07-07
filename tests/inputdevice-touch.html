@@ -11,13 +11,17 @@
   width: 100px;
   height: 100px;
   background-color: lightgreen;
+  margin-bottom: 10px;
+}
+button {
   margin-bottom: 20px;
 }
 </style>
 
 <h1>InputDevice - test for touch-triggered events</h1>
-<p>Tap and then drag on the touchscreen in the box below, then tap outside the box.</p>
+<p>Tap and then drag on the touchscreen in the box below, then tap on the button.</p>
 <div id="target" tabindex=1></div>
+<button>Done</button>
 <div><b>Expected events:</b> <span id="eventList"></span></div>
 <div id="log"></div>
 <script>
