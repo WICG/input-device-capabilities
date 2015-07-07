@@ -29,13 +29,9 @@ function runTests() {
   function generateConstructorTest(ctorName) {
     test(function() {
       var ctor = window[ctorName];
-
-      var evt = document.createEvent(ctorName);
-      assert_equals(evt.sourceDevice, null, "createEvent: sourceDevice exists and is null by default");
-
-      evt = new ctor("testEvent");
-      assert_equals(evt.sourceDevice, null, "Event constructor: sourceDevice exists and is null by default");
-      assert_readonly(evt, "sourceDevice", "Event constructor: sourceDevice should be readonly");
+      var evt = new ctor("testEvent");
+      assert_equals(evt.sourceDevice, null, "sourceDevice exists and is null by default");
+      assert_readonly(evt, "sourceDevice", "sourceDevice should be readonly");
       
       var device = new InputDevice({firesTouchEvents:true});
       evt = new ctor("mytest", {sourceDevice: device});
@@ -69,17 +65,20 @@ function runTests() {
 
   for (var i = 0; i < eventTypes.length; i++) {
     var type = eventTypes[i];
+    var isFf = navigator.userAgent.indexOf("Firefox") >= 0;
 
     // TouchEvent is special - support may be disabled even when the TouchEvent exists
     // http://crbug.com/392584
     if (type == "TouchEvent" && !('ontouchstart' in window))
       continue;
 
-    generateCreateEventTest(type);
+    // Firefox doesn't support legacy createEvent for new eventTypes.
+    if (!(isFf && ['FocusEvent', 'WheelEvent', 'InputEvent'].indexOf(type) >= 0))
+      generateCreateEventTest(type);
 
-    // Mozilla doesn't properly support CompositionEvent constructor and there doesn't appear
+    // Firefox doesn't properly support CompositionEvent constructor and there doesn't appear
     // to be any way to feature detect for that. https://bugzilla.mozilla.org/show_bug.cgi?id=1002256.
-    if (type == 'CompositionEvent' && navigator.userAgent.indexOf("Firefox") >= 0)
+    if (type == 'CompositionEvent' && isFf)
       continue;
 
     // Some browsers don't support constructors for all event types.
