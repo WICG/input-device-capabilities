@@ -63,13 +63,15 @@
       <h2>Introduction</h2>
       <p>
         DOM input events are an abstraction above low-level input events, only loosely
-        tied to physical device input (e.g. ‘click’ events can be fired by a mouse,
-        touchscreen or keyboard).  There is no mechanism to obtain
+        tied to physical device input (e.g. <code>click<code> events can be fired by a mouse,
+        touchscreen or keyboard). There is no mechanism to obtain
         lower-level details about the physical device responsible for an event.
-        This leads to problems, as developers may need to make
-        assumptions or rely on heuristics.  For example, when supporting both mouse and
-        touch input, it's difficult to know whether a mousedown event represents
+        Depending on implementation, certain types of input can also generate further
+        "fake" DOM input events for compatibility reasons. For example, touchscreen interactions
+        not only fire touch events, but also compatibility mouse events; when supporting both mouse and
+        touch input, it's difficult to know whether a <code>mousedown</code> event represents
         new input from a mouse, or a compatibility event for a previously processed touchstart event.
+        This leads to problems, as developers may need to make assumptions or rely on heuristics.
       </p>
       <p>
         The InputDevice API is designed to provide additional details about the underlying
