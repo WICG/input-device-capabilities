@@ -107,22 +107,19 @@
           boolean firesTouchEvents = false;
         };
       </pre>
-      <section>
-        <h3><code>InputDevice</code> attributes</h3>
-        <dl>
-          <dt><dfn>firesTouchEvents</dfn></dt>
-          <dd>          
-            Indicates whether this device dispatches [[Touch-Events]].
-            <div class="note">
-              This doesn't necessarily mean the device is a touch screen.  For example,
-              stylus and mouse devices typically generate touch events on mobile browsers.
-              This property can be used to detect mouse events [[UIEvents]] which represent
-              an action that may have already been handled by touch event handlers.  See
-              <a href="#example_1">Example 1</a> for details.
-            </div>
-          </dd>
-        </dl>
-      </section>
+      <dl>
+        <dt><dfn>firesTouchEvents</dfn></dt>
+        <dd>
+          Indicates whether this device dispatches [[Touch-Events]].
+          <div class="note">
+            This doesn't necessarily mean the device is a touch screen.  For example,
+            stylus and mouse devices typically generate touch events on mobile browsers.
+            This property can be used to detect mouse events [[UIEvents]] which represent
+            an action that may have already been handled by touch event handlers.  See
+            <a href="#example_1">Example 1</a> for details.
+          </div>
+        </dd>
+      </dl>
     </section>
     <section>
       <h2>Extensions to the <code>UIEvent</code> interface and <code>UIEventInit</code> dictionary</h2>
