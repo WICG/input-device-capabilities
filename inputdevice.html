@@ -49,13 +49,6 @@
         <a href="http://www.w3.org/2008/webapps/">Web Applications Working Group</a>,
         the <a href="http://www.w3.org/2012/pointerevents/">Pointer Events Working Group</a>
         and the <a href="https://www.w3.org/community/touchevents/">Touch Events Community Group</a>.
-        It is my hope that the work here will ultimately be integrated into the [[UIEvents]] specification.
-      </p>
-      <p>
-        Although there is a <a href="https://docs.google.com/document/d/1WLadG2dn4vlCewOmUtUEoRsThiptC7Ox28CRmYUn8Uw/edit#">
-        wide variety of properties</a> which would be valuable to add here, for now
-        this document aims to define only those that are strongly justified as solving
-        important real-world problems.
       </p>
     </section>
 
@@ -75,10 +68,14 @@
       </p>
       <p>
         The InputDevice API is designed to provide additional details about the underlying
-        source of an input event.  To avoid reliance on faulty assumptions (which may be
+        sources of input events.  To avoid reliance on faulty assumptions (which may be
         violated by edge cases or future input devices), this API attempts to describe how
         a device behaves (e.g. whether it fires touch events), not what it is
-        (e.g. a touchscreen).
+        (e.g. a touchscreen).  Initially this API is very minimal, focused on solving
+        <a href="https://docs.google.com/document/d/1-ZUtS3knhJP4RbWC74fUZbNp6cbytG6Wen7hewdCtdo/edit#heading=h.4my5f1pokrld">
+        a specific problem with identifying mouse events derived from touch events</a>, but it's
+        expected that it will <a href="https://docs.google.com/document/d/1WLadG2dn4vlCewOmUtUEoRsThiptC7Ox28CRmYUn8Uw/edit#">expand</a>
+        over time similar to <a href="#relationship-to-apis-in-other-platforms">other platforms</a>.
       </p>
     </section>
     <section dfn-for="InputDevice">
@@ -114,11 +111,11 @@
         <dd>
           Indicates whether this device dispatches [[Touch-Events]].
           <div class="note">
-            This doesn't necessarily mean the device is a touch screen.  For example,
-            stylus and mouse devices typically generate touch events on mobile browsers.
             This property can be used to detect mouse events [[UIEvents]] which represent
             an action that may have already been handled by touch event handlers.  See
             <a href="#example_1">Example 1</a> for details.
+            This doesn't necessarily mean the device is a touch screen.  For example,
+            stylus and mouse devices typically generate touch events on mobile browsers.
           </div>
         </dd>
       </dl>
@@ -140,11 +137,18 @@
         <dd>
           Indicates the <a>InputDevice</a> responsible for the generation
           of this event, or <code>null</code> if no input device was responsible.
+            When a single user interaction with an input device generates a series of
+            different input events, all events in the series should have the same
+            <code>sourceDevice</code>.
+            For example, when a user lifts their finger off of a touchscreen, several
+            UIEvents may be generated including <code>touchend</code>, <code>mousedown</code>,
+            <code>click</code>, and <code>focus</code>.  All of these events must
+            have the same <code>sourceDevice</code> representing the touchscreen.
           <div class="note">
-            The exact semantics of when a device is "resposible" for an event depends
-            somewhat on host OS properties and so is implementation-defined.  For example,
-            although a mouse or keyboard may be used to resize a window, this detail is
-            not exposed to the web platform in any way and so the <code>sourceDevice</code>
+            A device is considered "responsible" for an event only when that interaction
+            is part of the abstraction provided by the web platform.  For example,
+            many user agents allow a window to be resized with a mouse or a keyboard,
+            but this detail is not exposed to the web platform in any way and so the <code>sourceDevice</code>
             of a <code>resize</code> event will typically be <code>null</code>.
           </div>
         </dd>
@@ -165,7 +169,7 @@ myButton.addEventListener('touchend', function(e) {
   myButton.classList.remove("pressed");
 });
 
-myButton.addEventListener('touchcancel',  {
+myButton.addEventListener('touchcancel', function(e) {
   myButton.classList.remove("pressed");
 });
 
