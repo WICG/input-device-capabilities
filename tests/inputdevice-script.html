@@ -43,8 +43,7 @@ function runTests() {
         receivedEvent = e;
       });
       target.dispatchEvent(evt);
-      if (receivedEvent)
-        assert_equals(receivedEvent.sourceDevice, device, "sourceDevice is preserved across JavaScript event dispatch");
+      assert_equals(receivedEvent.sourceDevice, device, "sourceDevice is preserved across JavaScript event dispatch");
       
     }, "new " + ctorName);
   }
