@@ -29,7 +29,7 @@
     window.addEventListener("load", runTestsAndDone);
   }
   
-  var events;
+  var events = [];
   var eventsReceived = {};
   var sourceDeviceReceived;
   var target;
@@ -65,7 +65,7 @@
           sourceDeviceReceived = event.sourceDevice;
         }
       });
-      // We want to monitor for multiple occurneces of an event until all events have been
+      // We want to monitor for multiple occurrences of an event until all events have been
       // received.  If some events are never received, those tests will appear as "not run"
       // while the others will be "timeout".
       if (!(eventName in eventsReceived)) {
@@ -78,7 +78,7 @@
   }
 
   window.runInputDeviceEventTests = function(eventNames, inputDeviceValidator) {
-    events = eventNames;
+    events = events.concat(eventNames);
     setEventList();
     target = document.getElementById("target");
     

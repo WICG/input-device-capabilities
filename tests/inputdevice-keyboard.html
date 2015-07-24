@@ -30,6 +30,11 @@ function inputDeviceValidator(sourceDevice) {
   assert_false(sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
 }
 
+function onCompositionStart() {
+  document.removeEventListener("compositionstart", onCompositionStart, true);
+  runInputDeviceEventTests(["compositionstart", "compositionupdate", "compositionend"], inputDeviceValidator);
+}
+
 function runTests() {
   var events = ["click", "focus", "blur", "keydown", "keyup", "keypress"];
 
@@ -45,6 +50,12 @@ function runTests() {
       events.push("input");
     if ("onbeforeinput" in document.body)
       events.push("beforeinput");
+  }
+
+  if ("CompositionEvent" in window) {
+    // Composition events may be generated (if we're using an IME).  Watch for them
+    // and add more tests dynamically.
+    document.addEventListener("compositionstart", onCompositionStart, true);
   }
 
   runInputDeviceEventTests(events, inputDeviceValidator);
