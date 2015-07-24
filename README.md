@@ -2,6 +2,7 @@
 This repository contains a [proposed specification](http://rbyers.github.io/InputDevice/inputdevice.html) for an API that provides details of the underlying device that generated a DOM input event.  It also contains an initial attempt at [a polyfill](inputdevice-polyfill.js), and [some tests](http://rbyers.github.io/InputDevice/tests/).
 
 ## References
+* [WICG Discourse thread](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972/1)
 * [W3C UI Events tracking bug](https://www.w3.org/Bugs/Public/show_bug.cgi?id=28938)
 * [Chromium feature entry](https://www.chromestatus.com/features/5681847971348480) and [implementation status](https://code.google.com/p/chromium/issues/detail?id=476530)
 * [Firefox bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1182609)
