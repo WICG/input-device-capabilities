@@ -11,14 +11,10 @@
 }
 </style>
 
-<h1>InputDevice - test for keyboard-triggered events</h1>
-<p>Tab though the input fields below and activate the checkbox using nothing but a keyboard.
-Spacebar is used to activate the checkbox in most browsers.  In Safari Option-Tab is necessary to
-navigate to the checkbox.</p>
-<div id="target" tabindex=1>
-  <input>
-  <input type=checkbox>
-</div>
+<h1>InputDevice - test for IME-triggered events</h1>
+<p>Enter text into the input field using an input method editor (eg. virtual keyboard).
+</p>
+<input id="target">
 
 <div><b>Expected events:</b> <span id="eventList"></span></div>
 <div id="log"></div>
@@ -31,12 +27,7 @@ function inputDeviceValidator(sourceDevice) {
 }
 
 function runTests() {
-  var events = ["click", "focus", "blur", "keydown", "keyup", "keypress"];
-
-  // Mozilla doesn't support focusin/focusout: https://bugzilla.mozilla.org/show_bug.cgi?id=687787
-  // There doesn't appear to be any good way to feature-detect for it.
-  if (navigator.userAgent.indexOf("Firefox") == -1)
-    events = events.concat(["focusin", "focusout"]);
+  var events = ["keydown", "keyup", "keypress", "compositionstart", "compositionupdate", "compositionend"];
 
   // Some browsers don't yet implement 'input' as a UIEvent, and many browsers don't yet support
   // 'beforeinput'
