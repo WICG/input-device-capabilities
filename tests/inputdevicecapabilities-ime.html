@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<title>InputDevice test for keyboard-triggered events</title>
+<title>InputDeviceCapabilities test for keyboard-triggered events</title>
 <meta name="viewport" content="initial-scale=1">
 <meta charset="UTF-8">
 <script src="http://w3c-test.org/resources/testharness.js"></script>
 <script src="http://w3c-test.org/resources/testharnessreport.js"></script>
-<script src="inputdevice-tests.js"></script>
+<script src="inputdevicecapabilities-tests.js"></script>
 <style>
 #target {
   margin-bottom: 20px;
 }
 </style>
 
-<h1>InputDevice - test for IME-triggered events</h1>
+<h1>InputDeviceCapabilities - test for IME-triggered events</h1>
 <p>Enter text into the input field using an input method editor (eg. virtual keyboard).
 </p>
 <input id="target">
@@ -21,9 +21,9 @@
 <script>
 'use strict';
 
-function inputDeviceValidator(sourceDevice) {
-  assert_true(sourceDevice != null, "sourceDevice is set");
-  assert_false(sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
+function inputDeviceCapabilitiesValidator(sourceCapabilities) {
+  assert_true(sourceCapabilities != null, "sourceCapabilities is set");
+  assert_false(sourceCapabilities.firesTouchEvents, "sourceCapabilities.firesTouchEvents");
 }
 
 function runTests() {
