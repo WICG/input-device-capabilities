@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<title>InputDevice test for mouse-triggered events</title>
+<title>InputDeviceCapabilities test for mouse-triggered events</title>
 <meta name="viewport" content="initial-scale=1">
 <meta charset="UTF-8">
 <script src="http://w3c-test.org/resources/testharness.js"></script>
 <script src="http://w3c-test.org/resources/testharnessreport.js"></script>
-<script src="inputdevice-tests.js"></script>
+<script src="inputdevicecapabilities-tests.js"></script>
 <style>
 #target {
   border: 1px solid black;
@@ -15,7 +15,7 @@
 }
 </style>
 
-<h1>InputDevice - test for mouse-triggered events</h1>
+<h1>InputDeviceCapabilities - test for mouse-triggered events</h1>
 <p>Double-click with a pointing device that doesn't fire touch events (eg. a mouse) in the box below, then click outside the box.</p>
 <div id="target" tabindex=1></div>
 <div><b>Expected events:</b> <span id="eventList"></span></div>
@@ -23,9 +23,9 @@
 <script>
 'use strict';
 
-function inputDeviceValidator(sourceDevice) {
-  assert_true(sourceDevice != null, "sourceDevice is set");
-  assert_false(sourceDevice.firesTouchEvents, "sourcedevice.firesTouchEvents");
+function inputDeviceCapabilitiesValidator(sourceCapabilities) {
+  assert_true(sourceCapabilities != null, "sourceCapabilities is set");
+  assert_false(sourceCapabilities.firesTouchEvents, "sourceCapabilities.firesTouchEvents");
 }
 
 function runTests() {
@@ -39,6 +39,6 @@ function runTests() {
   if ('PointerEvent' in window)
     events = events.concat(["pointerdown", "pointermove", "pointerup", "pointerenter", "pointerleave", "pointerover", "pointerout"]);
 
-  runInputDeviceEventTests(events, inputDeviceValidator);
+  runInputDeviceCapabilitiesEventTests(events, inputDeviceCapabilitiesValidator);
 }
 </script>
