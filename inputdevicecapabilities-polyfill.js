@@ -1,12 +1,12 @@
-/* inputdevice-polyfill.js - Copyright (c) Rick Byers 2015.
+/* inputdevicecapabilities-polyfill.js - Copyright (c) Rick Byers 2015.
  * https://github.com/RByers/InputDevice
  *  
  * Uses a (not perfectly accurate) heuristic to  implement 
- * UIEvent.sourceDevice and InputDevice.firesTouchEvents.
+ * UIEvent.sourceCapabilities and InputDeviceCapabilities.firesTouchEvents.
  * Assumptions:
- *   - If sourceDevice is consulted on an event, it will be first read within
+ *   - If sourceCapabilities is consulted on an event, it will be first read within
  *     one second of the original event being dispatched.  We could, instead,
- *     determine the sourceDevice as soon as any UIEvent is dispatched (eg.
+ *     determine the sourceCapabilities as soon as any UIEvent is dispatched (eg.
  *     by hooking addEventListener) but that woudln't work for legacy onevent
  *     style handlers.
  *   - Touch and non-touch input devices aren't both being used within one
@@ -28,27 +28,27 @@
 (function(global) {
   'use strict';
   
-  if ('InputDevice' in global|| 'sourceDevice' in UIEvent.prototype)
+  if ('InputDeviceCapabilities' in global|| 'sourceCapabilities' in UIEvent.prototype)
     return;
   
-  function InputDevice(inputDeviceInit) {
+  function InputDeviceCapabilities(inputDeviceCapabilitiesInit) {
       Object.defineProperty(this, '__firesTouchEvents', {
-        value: (inputDeviceInit && 'firesTouchEvents' in inputDeviceInit) ? 
-          inputDeviceInit.firesTouchEvents : false,
+        value: (inputDeviceCapabilitiesInit && 'firesTouchEvents' in inputDeviceCapabilitiesInit) ? 
+          inputDeviceCapabilitiesInit.firesTouchEvents : false,
         writable: false,
         enumerable: false
       });
   };
   // Put the attributes prototype as getter functions to match the IDL. 
-  InputDevice.prototype = {
+  InputDeviceCapabilities.prototype = {
     get firesTouchEvents() {
       return this.__firesTouchEvents;
     }
   }; 
-  global.InputDevice = InputDevice;
+  global.InputDeviceCapabilities = InputDeviceCapabilities;
 
-  var touchDevice = new InputDevice({firesTouchEvents:true});
-  var nonTouchDevice = new InputDevice({firesTouchEvents:false});
+  var touchDevice = new InputDeviceCapabilities({firesTouchEvents:true});
+  var nonTouchDevice = new InputDeviceCapabilities({firesTouchEvents:false});
     
   // Keep track of the last time we saw a touch event.  Note that if you don't
   // already have touch handlers on your document, this can have unfortunate
@@ -62,12 +62,12 @@
   document.addEventListener('touchend', touchHandler, true);
   document.addEventListener('touchcancel', touchHandler, true);
 
-  var specifiedSourceDeviceName = '__inputDevicePolyfill_specifiedSourceDevice';
+  var specifiedSourceCapabilitiesName = '__inputDeviceCapabilitiesPolyfill_specifiedSourceCapabilities';
 
   // A few UIEvents aren't really input events and so should always have a null
-  // source device.  Arguably we should have a list of opt-in event types instead,
+  // source capabilities.  Arguably we should have a list of opt-in event types instead,
   // but that probably depends on ultimately how we want to specify this behavior.
-  var eventTypesWithNoSourceDevice = ['resize', 'error', 'load', 'unload', 'abort'];
+  var eventTypesWithNoSourceCapabilities = ['resize', 'error', 'load', 'unload', 'abort'];
   
   // We assume that any UI event that occurs within this many ms from a touch
   // event is caused by a touch device.  This needs to be a little longer than
@@ -76,15 +76,15 @@
   // to come shortly after touch input.  
   var touchTimeConstant = 1000;
   
-  Object.defineProperty(UIEvent.prototype, 'sourceDevice', {
+  Object.defineProperty(UIEvent.prototype, 'sourceCapabilities', {
     get: function() {
       // Handle script-generated events and events which have already had their
-      // sourceDevice read.
-      if (specifiedSourceDeviceName in this)
-        return this[specifiedSourceDeviceName];
+      // sourceCapabilities read.
+      if (specifiedSourceCapabilitiesName in this)
+        return this[specifiedSourceCapabilitiesName];
 
       // Handle non-input events.
-      if (eventTypesWithNoSourceDevice.indexOf(this.type) >= 0)
+      if (eventTypesWithNoSourceCapabilities.indexOf(this.type) >= 0)
         return null;
       
       // touch events may not be supported by this browser at all (eg. IE desktop).
@@ -104,21 +104,21 @@
 
       // Otherwise use recent touch events to decide if this event is likely due
       // to a touch device or not.
-      var sourceDevice = Date.now() < lastTouchTime + touchTimeConstant ? touchDevice : nonTouchDevice;
+      var sourceCapabilities = Date.now() < lastTouchTime + touchTimeConstant ? touchDevice : nonTouchDevice;
       
       // Cache the value to ensure it can't change over the life of the event.
-      Object.defineProperty(this, specifiedSourceDeviceName, {
-        value: sourceDevice,
+      Object.defineProperty(this, specifiedSourceCapabilitiesName, {
+        value: sourceCapabilities,
         writable: false
       });
       
-      return sourceDevice;
+      return sourceCapabilities;
     },
     configurable: true,
     enumerable: true
   });
   
-  // Add support for supplying a sourceDevice from JS in all UIEvent constructors.
+  // Add support for supplying a sourceCapabilities from JS in all UIEvent constructors.
   function augmentEventConstructor(constructorName) {
     if (!(constructorName in global))
       return;
@@ -130,17 +130,17 @@
 
     var origCtor = global[constructorName];
     global[constructorName] = function(type, initDict) {
-      var sourceDevice = (initDict && initDict.sourceDevice) ? initDict.sourceDevice : null;
-      // Need to explicitly remove sourceDevice from the dictionary as it would cause
-      // a type error in blink when InputDevice support is disabled.
+      var sourceCapabilities = (initDict && initDict.sourceCapabilities) ? initDict.sourceCapabilities : null;
+      // Need to explicitly remove sourceCapabilities from the dictionary as it would cause
+      // a type error in blink when InputDeviceCapabilities support is disabled.
       if (initDict)
-        delete initDict.sourceDevice;
+        delete initDict.sourceCapabilities;
       var evt = new origCtor(type, initDict);
-      // Stash the sourceDevice value away for use by the UIEvent.sourceDevice
+      // Stash the sourceCapabilities value away for use by the UIEvent.sourceCapabilities
       // getter.  We could instead shadow the property on this instance, but 
       // that would be subtly different than the specified API.
-      Object.defineProperty(evt, specifiedSourceDeviceName, {
-        value: sourceDevice,
+      Object.defineProperty(evt, specifiedSourceCapabilitiesName, {
+        value: sourceCapabilities,
         writable: false
       });
       return evt;
@@ -153,12 +153,12 @@
   for (var i = 0; i < uiEventConstructors.length; i++)
     augmentEventConstructor(uiEventConstructors[i]);
 
-  // Ensure events created with document.createEvent always get a null sourceDevice
+  // Ensure events created with document.createEvent always get a null sourceCapabilities
   var origCreateEvent = Document.prototype.createEvent;
   Document.prototype.createEvent = function(type) {
     var evt = origCreateEvent.call(this, type);
     if (evt instanceof UIEvent) {
-      Object.defineProperty(evt, specifiedSourceDeviceName, {
+      Object.defineProperty(evt, specifiedSourceCapabilitiesName, {
         value: null,
         writable: false
       });
