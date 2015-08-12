@@ -12,7 +12,7 @@
   
   // Load the polyfill if requested in the URL hash
   if (location.hash.indexOf("usePolyfill") >= 0) {
-      var polyfillTest = async_test("Load InputDevice support from the polyfill");
+      var polyfillTest = async_test("Load InputDeviceCapabilities support from the polyfill");
       var newScript = document.createElement('script');
       newScript.onload = polyfillTest.step_func(function() { 
         assert_true(true, "Polyfill load succeeded synchronously");
@@ -23,7 +23,7 @@
         done();
         assert_unreached("Polyfill load failed");
       });
-      newScript.src = "../inputdevice-polyfill.js";
+      newScript.src = "../inputdevicecapabilities-polyfill.js";
       document.documentElement.appendChild(newScript);
   } else {
     window.addEventListener("load", runTestsAndDone);
@@ -31,7 +31,7 @@
   
   var events = [];
   var eventsReceived = {};
-  var sourceDeviceReceived;
+  var sourceCapabilitiesReceived;
   var target;
   var asyncTests = [];
 
@@ -53,16 +53,16 @@
     }  
   }
 
-  function generateAsyncEventTest(eventName, inputDeviceValidator) {
-    var asyncTest = async_test(eventName + " event has sourceDevice set correctly");
+  function generateAsyncEventTest(eventName, inputDeviceCapabilitiesValidator) {
+    var asyncTest = async_test(eventName + " event has sourceCapabilities set correctly");
     target.addEventListener(eventName, function(event) {
       asyncTest.step(function() {
         assert_true(event instanceof UIEvent, "event is a UIEvent");
-        if (sourceDeviceReceived) {
-            assert_equals(event.sourceDevice, sourceDeviceReceived, "sourceDevice is the same object as previous events");
+        if (sourceCapabilitiesReceived) {
+            assert_equals(event.sourceCapabilities, sourceCapabilitiesReceived, "sourceCapabilities is the same object as previous events");
         } else {
-          inputDeviceValidator(event.sourceDevice);
-          sourceDeviceReceived = event.sourceDevice;
+          inputDeviceCapabilitiesValidator(event.sourceCapabilities);
+          sourceCapabilitiesReceived = event.sourceCapabilities;
         }
       });
       // We want to monitor for multiple occurrences of an event until all events have been
@@ -77,13 +77,13 @@
     return asyncTest;
   }
 
-  window.runInputDeviceEventTests = function(eventNames, inputDeviceValidator) {
+  window.runInputDeviceCapabilitiesEventTests = function(eventNames, inputDeviceCapabilitiesValidator) {
     events = events.concat(eventNames);
     setEventList();
     target = document.getElementById("target");
     
     for (var i = 0; i < eventNames.length; i++) {
-      asyncTests.push(generateAsyncEventTest(eventNames[i], inputDeviceValidator));
+      asyncTests.push(generateAsyncEventTest(eventNames[i], inputDeviceCapabilitiesValidator));
     }
   };
 })();
