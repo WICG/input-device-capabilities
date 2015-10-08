@@ -1,5 +1,4 @@
-/* inputdevicecapabilities-polyfill.js - Copyright (c) Rick Byers 2015.
- * https://github.com/RByers/InputDevice
+/* inputdevicecapabilities-polyfill.js - https://github.com/RByers/InputDevice
  *  
  * Uses a (not perfectly accurate) heuristic to  implement 
  * UIEvent.sourceCapabilities and InputDeviceCapabilities.firesTouchEvents.
