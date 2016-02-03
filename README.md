@@ -2,6 +2,8 @@
 This repository contains a [proposed specification](http://WICG.github.io/InputDeviceCapabilities/) for an API that provides capability details of the underlying device that generated a DOM input event.  It also contains a [a polyfill](inputdevicecapabilities-polyfill.js), and [some tests](http://rbyers.github.io/InputDevice/tests/).  We are in the process of officialy standardizing this API via the [W3C WICG](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972).
 
 ## References
+* [Web Updates article](https://developers.google.com/web/updates/2015/10/inputdevicecapabilities)
+* [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/InputDeviceCapabilities_API)
 * [WICG Discourse thread](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972/1)
 * [W3C UI Events tracking bug](https://www.w3.org/Bugs/Public/show_bug.cgi?id=28938)
 * [Chromium feature entry](https://www.chromestatus.com/features/5681847971348480) and [implementation status](https://code.google.com/p/chromium/issues/detail?id=476530) - now shipped in Chrome 47.
