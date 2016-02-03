@@ -1,4 +1,4 @@
-/* inputdevicecapabilities-polyfill.js - https://github.com/RByers/InputDevice
+/* inputdevicecapabilities-polyfill.js - https://github.com/WICG/InputDeviceCapabilities
  *  
  * Uses a (not perfectly accurate) heuristic to  implement 
  * UIEvent.sourceCapabilities and InputDeviceCapabilities.firesTouchEvents.
@@ -20,7 +20,7 @@
  *     - Firefox 38 (Linux)
  *     - Safari 8 (Mac and iOS)
  *   - Event constructors aren't supported by IE at all.
- *   - IE on Windows phone isn't supported properly (https://github.com/RByers/InputDevice/issues/13)
+ *   - IE on Windows phone isn't supported properly (https://github.com/WICG/InputDeviceCapabilities/issues/13)
  *   - Won't work in IE prior to version 9 (due to lack of Object.defineProperty)
  */
 
@@ -70,7 +70,7 @@
   
   // We assume that any UI event that occurs within this many ms from a touch
   // event is caused by a touch device.  This needs to be a little longer than
-  // the maximum tap delay on various browsers (300ms in Safari) while remaining
+  // the maximum tap delay on various browsers (350ms in Safari) while remaining
   // as short as possible to reduce the risk of confusing other input that happens
   // to come shortly after touch input.  
   var touchTimeConstant = 1000;
