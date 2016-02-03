@@ -1,5 +1,5 @@
 # InputDeviceCapabilities
-This repository contains a [proposed specification](http://rbyers.github.io/InputDevice/) for an API that provides capability details of the underlying device that generated a DOM input event.  It also contains a [a polyfill](inputdevicecapabilities-polyfill.js), and [some tests](http://rbyers.github.io/InputDevice/tests/).  We are in the process of officialy standardizing this API via the [W3C WICG](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972).
+This repository contains a [proposed specification](http://WICG.github.io/InputDeviceCapabilities/) for an API that provides capability details of the underlying device that generated a DOM input event.  It also contains a [a polyfill](inputdevicecapabilities-polyfill.js), and [some tests](http://rbyers.github.io/InputDevice/tests/).  We are in the process of officialy standardizing this API via the [W3C WICG](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972).
 
 ## References
 * [WICG Discourse thread](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972/1)
