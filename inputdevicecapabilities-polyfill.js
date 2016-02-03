@@ -147,8 +147,8 @@
     global[constructorName].prototype = origCtor.prototype;
   };
   
-  // Note that TouchEvent and SVGZoomEvent don't yet have constructors defined.
-  var uiEventConstructors = ['UIEvent', 'MouseEvent', 'InputEvent', 'CompositionEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent', 'PointerEvent'];
+  // Note that SVGZoomEvent desn't yet have constructors defined.
+  var uiEventConstructors = ['UIEvent', 'MouseEvent', 'TouchEvent', 'InputEvent', 'CompositionEvent', 'FocusEvent', 'KeyboardEvent', 'WheelEvent', 'PointerEvent'];
   for (var i = 0; i < uiEventConstructors.length; i++)
     augmentEventConstructor(uiEventConstructors[i]);
 
