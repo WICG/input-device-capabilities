@@ -7,6 +7,7 @@ This repo also contains a [a polyfill](inputdevicecapabilities-polyfill.js), and
 * [Web Updates article](https://developers.google.com/web/updates/2015/10/inputdevicecapabilities)
 * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/InputDeviceCapabilities_API)
 * [WICG Discourse thread](http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972/1)
+* [Decision to import to WICG](https://lists.w3.org/Archives/Public/public-wicg/2016Jan/0000.html)
 * [W3C UI Events tracking bug](https://www.w3.org/Bugs/Public/show_bug.cgi?id=28938)
 * [Chromium feature entry](https://www.chromestatus.com/features/5681847971348480) and [implementation status](https://code.google.com/p/chromium/issues/detail?id=476530)
 * [Firefox bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1182609)
