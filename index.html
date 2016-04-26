@@ -163,30 +163,27 @@
       <p>The following are examples that demonstrate how the APIs in this specification might
       be used</p>
       <pre id="example_1" resource="#example_1" class="example" title="Changing the style of a button for mouse and touch">
-myButton.addEventListener('touchstart', function(e) {
-  myButton.classList.add("pressed");
-});
+myButton.addEventListener('touchstart', addHighlight);
 
-myButton.addEventListener('touchend', function(e) {
-  // We don't call preventDefault because we want to rely on the browser's
-  // tap detection to actually trigger the button.
-  myButton.classList.remove("pressed");
-});
+myButton.addEventListener('touchend', removeHighlight);
 
-myButton.addEventListener('touchcancel', function(e) {
-  myButton.classList.remove("pressed");
-});
+// We don't call preventDefault because we want to rely on the browser's
+// tap detection / 'click' to actually trigger the button.
 
 myButton.addEventListener('mousedown', function(e) {
-  // Touch event case handled above, don't change the style again on tap.
-  if (!e.sourceCapabilities.firesTouchEvents)
-    myButton.classList.add("pressed");
+  // Touch event case handled above, don't change the style again on tap
+  if (!e.sourceCapabilities.firesTouchEvents) {
+    addHighlight(e);
+  }
 });
 
 document.addEventListener('mouseup', function(e) {
-  if (!e.sourceCapabilities.firesTouchEvents)
-    myButton.classList.remove("pressed");
+  if (!e.sourceCapabilities.firesTouchEvents) {
+    removeHighlight(e);
+  }
 });
+
+myButton.addEventListener('click', someFunction);
       </pre>
     </section>
     <section class="informative">
