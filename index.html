@@ -138,8 +138,9 @@
             respond to touch events but not mouse events.  [[PointerEvents]] provide
             an abstraction between these devices (including devices like pens which may
             behave in either way depending on system convention).  So when using the
-            [[PointerEvents]] API it's best to explicitly check this capability rather
-            than make assumptions about which types of events should trigger scrolling behavior.
+            [[PointerEvents]] API it's best to <a href="#example_2">explicitly check</a> this
+            capability rather than make assumptions about which types of events should trigger
+            scrolling behavior.
           </div>
         </dd>
       </dl>
@@ -204,6 +205,29 @@ document.addEventListener('mouseup', function(e) {
 });
 
 myButton.addEventListener('click', someFunction);
+      </pre>
+      <pre id="example_2" resource="#example_2" class="example" title="Driving panning from pointer events">
+myCarousel.addEventListener('wheel', function(e) {
+  // Horizontal wheel movement always pans the carousel instead of scrolling.
+  if (e.deltaX > e.deltaY) {
+    panCarousel(e.deltaX);
+    e.preventDefault();
+  }
+});
+
+// Horizontal touch (or other direct-manipulation) input should
+// also pan the carousel instead of scrolling.
+myCarousel.style.touchAction='pan-y';
+var lastX;
+function onPointerEvent(e) {
+  if (e.isPrimary && e.sourceCapabilities.pointerMovementScrolls) {
+    if (e.type == 'pointermove')
+      panCarousel(e.clientX - lastX);
+    lastX = e.clientX;
+  }
+};
+myCarousel.addEventListener('pointedown', onPointerEvent);
+myCarousel.addEventListener('pointermove', onPointerEvent);
       </pre>
     </section>
     <section class="informative">
