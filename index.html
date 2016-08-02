@@ -104,10 +104,12 @@
         [Constructor(optional InputDeviceCapabilitiesInit deviceInitDict)]
         interface InputDeviceCapabilities {
           readonly attribute boolean firesTouchEvents;
+          readonly attribute boolean pointerMovementScrolls;
         };
 
         dictionary InputDeviceCapabilitiesInit {
           boolean firesTouchEvents = false;
+          boolean pointerMovementScrolls = false;
         };
       </pre>
       <dl>
@@ -120,6 +122,24 @@
             <a href="#example_1">Example 1</a> for details.
             This doesn't necessarily mean the device is a touch screen.  For example,
             stylus and mouse devices typically generate touch events on mobile browsers.
+          </div>
+        </dd>
+        <dt><dfn>pointerMovementScrolls</dfn></dt>
+        <dd>
+          Indicates whether this device is a pointing device which typically triggers
+          scrolling when it is dragged across the content.
+          <div class="note">
+            This property is typically <code>true</code> for direct-manipulation pointing
+            devices (those where the physical metaphor is one of the user directly
+            manipulating an object on the screen), such as touch screens and some
+            on-screen stylus devices common on phones.<br>
+            This property can be used, for example, in libraries which attempt to mimic
+            native scrolling by consuming low-level input events.  Such libraries typically
+            respond to touch events but not mouse events.  [[PointerEvents]] provide
+            an abstraction between these devices (including devices like pens which may
+            behave in either way depending on system convention).  So when using the
+            [[PointerEvents]] API it's best to explicitly check this capability rather
+            than make assumptions about which types of events should trigger scrolling behavior.
           </div>
         </dd>
       </dl>
