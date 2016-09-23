@@ -3,6 +3,8 @@ This repository contains a [proposed specification](http://WICG.github.io/InputD
 
 This repo also contains a [a polyfill](inputdevicecapabilities-polyfill.js), and [some tests](http://WICG.github.io/InputDeviceCapabilities/tests/).  This API [first shipped](https://www.chromestatus.com/features/5681847971348480) in Chrome 47.
 
+If this API is successfully (eg. shipped in multiple browsers) then it will hopefully be transitioned out of incubation and [into the W3C UIEvents specification](https://github.com/w3c/uievents/issues/108) as maintained by the W3C Web Platform Working Group.
+
 ## References
 * [Web Updates article](https://developers.google.com/web/updates/2015/10/inputdevicecapabilities)
 * [MDN Documentation](https://developer.mozilla.org/en-US/docs/Web/API/InputDeviceCapabilities_API)
