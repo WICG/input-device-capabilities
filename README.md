@@ -1,4 +1,4 @@
-# InputDeviceCapabilities
+# Input Device Capabilities
 This repository contains a [proposed specification](http://WICG.github.io/InputDeviceCapabilities/) for an API that provides capability details of the underlying device that generated a DOM input event.  In particular, this enables scripts to [reliably identify MouseEvents dervied from TouchEvents](https://docs.google.com/document/d/1-ZUtS3knhJP4RbWC74fUZbNp6cbytG6Wen7hewdCtdo/edit).
 
 This repo also contains a [a polyfill](inputdevicecapabilities-polyfill.js), and [some tests](http://WICG.github.io/InputDeviceCapabilities/tests/).  This API [first shipped](https://www.chromestatus.com/features/5681847971348480) in Chrome 47.
