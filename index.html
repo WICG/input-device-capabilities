@@ -102,7 +102,8 @@
         keyboard device).
       </p>
       <pre class="idl">
-        [Constructor(optional InputDeviceCapabilitiesInit deviceInitDict)]
+        [Exposed=Window,
+         Constructor(optional InputDeviceCapabilitiesInit deviceInitDict = {})]
         interface InputDeviceCapabilities {
           readonly attribute boolean firesTouchEvents;
           readonly attribute boolean pointerMovementScrolls;
