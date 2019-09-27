@@ -1,5 +1,6 @@
  {
     "group":      ["80485"]
 ,   "contacts":   ["yoavweiss"]
-,   "shortName":  "InputDeviceCapabilities"
+,   "shortName":  "InputDeviceCapabilities",
+    "repo-type": "cg-report"
 }
