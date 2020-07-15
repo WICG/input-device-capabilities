@@ -3,15 +3,16 @@
   <head>
     <title>Input Device Capabilities</title>
     <meta charset='utf-8'>
-    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+    <script src='https://www.w3.org/Tools/respec/respec-w3c'
             async class='remove'></script>
     <script class='remove'>
       var respecConfig = {
           specStatus: "CG-DRAFT",
           wg: "WICG",
+          wgURI: "https://www.w3.org/community/wicg/",
           shortName: "inputdevicecapabilities",
-          edDraftURI: "http://wicg.github.io/InputDeviceCapabilities/",
-          testSuiteURI: "http://wicg.github.io/InputDeviceCapabilities/tests/",
+          edDraftURI: "https://wicg.github.io/InputDeviceCapabilities/",
+          testSuiteURI: "https://wicg.github.io/InputDeviceCapabilities/tests/",
           editors: [
                 {   name:       "Rick Byers",
                     url:        "http://rbyers.net/",
@@ -26,14 +27,14 @@
                     href: 'https://github.com/WICG/InputDeviceCapabilities/'
                 },{
                     value: 'Polyfill',
-                    href: 'http://wicg.github.io/InputDeviceCapabilities/inputdevicecapabilities-polyfill.js'
+                    href: 'https://wicg.github.io/InputDeviceCapabilities/inputdevicecapabilities-polyfill.js'
                 },
                 {
                     value: 'File a bug / view open issues',
                     href: 'https://github.com/WICG/InputDeviceCapabilities/issues'
                 }, {
                     value: 'Feedback / discussion in the WICG',
-                    href: 'http://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972/1'
+                    href: 'https://discourse.wicg.io/t/inputdevice-api-for-identifying-mouse-events-derived-from-touch/972/1'
                 }
              ]
           }],
@@ -84,7 +85,7 @@
       </p>
     </section>
     <section id='conformance'></section>
-    <section dfn-for="InputDeviceCapabilities">
+    <section data-dfn-for="InputDeviceCapabilities">
       <h2>The <code>InputDeviceCapabilities</code> interface</h2>
       <p>
         An <dfn>InputDeviceCapabilities</dfn> represents an input device (or group of related devices)
@@ -103,9 +104,9 @@
         keyboard device).
       </p>
       <pre class="idl">
-        [Exposed=Window,
-         Constructor(optional InputDeviceCapabilitiesInit deviceInitDict = {})]
+        [Exposed=Window]
         interface InputDeviceCapabilities {
+          constructor(optional InputDeviceCapabilitiesInit deviceInitDict = {});
           readonly attribute boolean firesTouchEvents;
           readonly attribute boolean pointerMovementScrolls;
         };
@@ -151,7 +152,7 @@
     <section>
       <h2>Extensions to the <code>UIEvent</code> interface and <code>UIEventInit</code> dictionary</h2>
       <p><code>UIEvent</code> and <code>UIEventInit</code> are defined in [[!UIEvents]].</p>
-      <pre class="idl">
+      <pre class="idl" data-cite="ui-events">
         partial interface UIEvent {
           readonly attribute InputDeviceCapabilities? sourceCapabilities;
         };
@@ -160,7 +161,7 @@
           InputDeviceCapabilities? sourceCapabilities = null;
         };
       </pre>
-      <dl dfn-for="UIEvent">
+      <dl data-dfn-for="UIEvent">
         <dt><dfn>sourceCapabilities</dfn></dt>
         <dd>
           Indicates the <a>InputDeviceCapabilities</a> responsible for the generation
